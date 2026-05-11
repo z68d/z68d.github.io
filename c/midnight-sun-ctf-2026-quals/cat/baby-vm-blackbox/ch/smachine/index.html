@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>smachine | W4llz Writeups</title>
+  <link rel="stylesheet" href="/public/writeups.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="glow-orb one"></div>
+  <div class="glow-orb two"></div>
+
+  <div class="site-shell">
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="brand" href="/">
+          <div class="brand-mark">W</div>
+          <div class="brand-text">
+            <div class="brand-name">W4llz</div>
+            <div class="brand-subtitle">CTF Writeups</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/c/midnight-sun-ctf-2026-quals/">Competitions</a>
+          <a href="https://github.com/z68d/z68d.github.io">GitHub</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      
+<div class="topbar"><a href="/c/midnight-sun-ctf-2026-quals/cat/baby-vm-blackbox/">← Back to category</a></div>
+<section class="hero compact">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="pulse-dot"></span> writeup</div>
+    <h1>smachine</h1>
+    <p>Sometimes reversing is just blackbox testing.</p>
+  </div>
+</section>
+
+<div class="writeup-page">
+  <div class="writeup-card">
+    
+<div class="overview-grid">
+  <div><span>Name:</span> smachine</div>
+  <div><span>Author:</span> @acez</div>
+  <div><span>Category:</span> baby_vm, blackbox</div>
+  <div><span>Flag format:</span> midnight{...}</div>
+  <div><span>Objective:</span> Interact with the blackbox Simple Machine service, discover the available operations, and set a register to the required winning value.</div>
+</div>
+
+  </div>
+
+  <article class="writeup-card prose">
+    <h1>smachine</h1>
+<h2>Challenge Overview</h2>
+<p>Name: smachine</p>
+<p>Author: @acez</p>
+<p>Category: baby_vm, blackbox</p>
+<p>Description: Sometimes reversing is just blackbox testing.</p>
+<p>Flag format: midnight{...}</p>
+<p>Objective: Interact with the blackbox Simple Machine service, discover the available operations, and set a register to the required winning value.</p>
+<h2>Files Provided</h2>
+<ul>
+<li>N/A</li>
+</ul>
+<h2>Solution Plan</h2>
+<p>1. Connect to the remote service and identify the available commands.</p>
+<p>2. Use <code>help</code>, <code>regs</code>, and <code>win</code> to understand the machine state and win condition.</p>
+<p>3. Set any register to <code>0x1337</code> using allowed arithmetic and bitwise operations, then run <code>win</code>.</p>
+<h2>Code (Exploit Script)</h2>
+<pre><code class="language-bash">nc smachine.play.ctf.se 9189
+
+help
+regs
+win
+
+add x9 65535
+and x9 70455
+regs
+win</code></pre>
+<h2>Flag</h2>
+<pre><code class="language-txt">midnight{s1MpL3_sT4cK_M4cH1N3}</code></pre>
+<h2>Notes</h2>
+<p>The service starts a REPL named Simple Machine. The <code>help</code> command lists the supported operations:</p>
+<pre><code class="language-txt">add  and  help  mul  or  regs  sub  win  xor</code></pre>
+<p>The <code>win</code> command reveals the condition:</p>
+<pre><code class="language-txt">Set any register to 0x1337 in order to win.</code></pre>
+<p>Directly adding <code>4919</code> (<code>0x1337</code>) returned <code>Bad Result</code>, but bitwise operations allowed reaching the target value. Setting <code>x9</code> to <code>0xffff</code> and applying <code>and x9 70455</code> results in <code>0x1337</code>, which satisfies the win condition.</p>
+  </article>
+</div>
+
+    </main>
+  </div>
+</body>
+</html>

