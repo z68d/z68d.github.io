@@ -127,7 +127,7 @@ def page(title, body, current=""):
     <nav class="site-nav">
       <div class="nav-inner">
         <a class="brand" href="/">
-          <img class="brand-avatar" src="https://github.com/z68d.png" alt="saad avatar">
+          <img class="brand-avatar" src="/public/mylogo.gif" alt="saad avatar">
           <div class="brand-text">
             <div class="brand-name">saad</div>
             <div class="brand-subtitle">CTF Writeups</div>
