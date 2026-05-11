@@ -131,9 +131,9 @@ def page(title, body, current=""):
           <div class="brand-text">
             <div class="brand-name">saad</div>
             <div class="brand-subtitle">CTF Writeups</div>
-          <div class="brand-socials" style="display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:2px!important;">
-            <a class="social-link" style="display:block!important;width:max-content!important;white-space:nowrap!important;" href="https://x.com/_z68d" target="_blank" rel="noreferrer">x : @_z68d</a>
-            <span class="social-link" style="display:block!important;width:max-content!important;white-space:nowrap!important;">discord : z68d</span>
+          <div class="brand-socials" style="display:block!important;line-height:1.05!important;margin-top:4px!important;">
+            <a class="social-link" style="display:block!important;width:max-content!important;white-space:nowrap!important;line-height:1.05!important;text-decoration:none!important;" href="https://x.com/_z68d" target="_blank" rel="noreferrer">x : @_z68d</a>
+            <span class="social-link" style="display:block!important;width:max-content!important;white-space:nowrap!important;line-height:1.05!important;">discord : z68d</span>
           </div>
           </div>
         </a>
