@@ -684,7 +684,6 @@ home_cards = card(
 home = f"""
 <section class="hero">
   <div class="hero-grid"></div>
-  <img class="hero-logo-watermark" src="/public/mylogo.gif" alt="saad logo">
   <div class="hero-content">
     <div class="eyebrow"><span class="pulse-dot"></span> published writeups</div>
     <h1><span>saad</span><br>Archive</h1>
