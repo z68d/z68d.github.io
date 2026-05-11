@@ -1,176 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>W4llz CTF Writeups</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0f19;
-      color: #e5e7eb;
-      min-height: 100vh;
-    }
-
-    .container {
-      width: min(1100px, 92%);
-      margin: 0 auto;
-      padding: 60px 0;
-    }
-
-    .hero {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 8px 14px;
-      border: 1px solid #334155;
-      border-radius: 999px;
-      color: #93c5fd;
-      background: rgba(59, 130, 246, 0.08);
-      font-size: 14px;
-      margin-bottom: 18px;
-    }
-
-    h1 {
-      font-size: clamp(36px, 6vw, 72px);
-      margin: 0;
-      letter-spacing: -2px;
-    }
-
-    .highlight {
-      color: #60a5fa;
-    }
-
-    .subtitle {
-      color: #94a3b8;
-      font-size: 18px;
-      margin-top: 18px;
-    }
-
-    .section-title {
-      font-size: 26px;
-      margin-bottom: 20px;
-      border-left: 4px solid #60a5fa;
-      padding-left: 12px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      padding: 22px;
-      border: 1px solid #1e293b;
-      border-radius: 18px;
-      background: linear-gradient(180deg, #111827, #0f172a);
-      transition: 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #60a5fa;
-      box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      color: #f8fafc;
-    }
-
-    .card p {
-      margin: 0;
-      color: #94a3b8;
-      line-height: 1.5;
-    }
-
-    .tag {
-      display: inline-block;
-      margin-top: 16px;
-      font-size: 13px;
-      color: #93c5fd;
-    }
-
-    footer {
-      text-align: center;
-      color: #64748b;
-      margin-top: 60px;
-      font-size: 14px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | W4llz Writeups</title>
+  <link rel="stylesheet" href="/public/writeups.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <main class="container">
-    <section class="hero">
-      <div class="badge">CTF Writeups Archive</div>
-      <h1><span class="highlight">W4llz</span> Writeups</h1>
-      <p class="subtitle">Clean writeups for CTF challenges, exploits, and solutions.</p>
-    </section>
+  <div class="scanlines"></div>
+  <div class="glow-orb one"></div>
+  <div class="glow-orb two"></div>
 
-    <section>
-      <h2 class="section-title">Midnight Sun CTF 2026 Quals</h2>
-
-      <div class="grid">
-        <a class="card" href="Midnight%20Sun%20CTF%202026%20Quals/justcause_writeup.md">
-          <h3>JustCause</h3>
-          <p>WebKit JavaScriptCore WebAssembly parser exploitation.</p>
-          <span class="tag">pwn / browser</span>
+  <div class="site-shell">
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="brand" href="/">
+          <div class="brand-mark">W</div>
+          <div class="brand-text">
+            <div class="brand-name">W4llz</div>
+            <div class="brand-subtitle">CTF Writeups</div>
+          </div>
         </a>
-
-        <a class="card" href="Midnight%20Sun%20CTF%202026%20Quals/drop_writeup.md">
-          <h3>drop</h3>
-          <p>ROP chain, mprotect, shellcode, and flag extraction.</p>
-          <span class="tag">pwn</span>
-        </a>
-
-        <a class="card" href="Midnight%20Sun%20CTF%202026%20Quals/smachine_writeup.md">
-          <h3>smachine</h3>
-          <p>Blackbox Simple Machine command interaction.</p>
-          <span class="tag">baby_vm</span>
-        </a>
-
-        <a class="card" href="Midnight%20Sun%20CTF%202026%20Quals/cmashine_writeup.md">
-          <h3>cmashine</h3>
-          <p>VM memory overwrite and hidden function dispatch.</p>
-          <span class="tag">pwn / vm</span>
-        </a>
-
-        <a class="card" href="Midnight%20Sun%20CTF%202026%20Quals/chain_writeup.md">
-          <h3>chain</h3>
-          <p>Format string leak, GOT overwrite, and command execution.</p>
-          <span class="tag">pwn</span>
-        </a>
-
-        <a class="card" href="Midnight%20Sun%20CTF%202026%20Quals/speed-1_writeup.md">
-          <h3>speed-1</h3>
-          <p>ARM ROP, canary leak, libc leak, and system shell.</p>
-          <span class="tag">pwn / ARM</span>
-        </a>
-
-        <a class="card" href="Midnight%20Sun%20CTF%202026%20Quals/speed-2_writeup.md">
-          <h3>speed-2</h3>
-          <p>Classic ret2win stack overflow exploitation.</p>
-          <span class="tag">pwn</span>
-        </a>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/c/midnight-sun-ctf-2026-quals/">Competitions</a>
+          <a href="https://github.com/z68d/z68d.github.io">GitHub</a>
+        </div>
       </div>
-    </section>
+    </nav>
 
-    <footer>
-      Built by W4llz · z68d.github.io
-    </footer>
-  </main>
+    <main class="container">
+      
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="eyebrow"><span class="pulse-dot"></span> published writeups</div>
+    <h1><span>W4llz</span><br>Archive</h1>
+    <p>Clean CTF writeups with competition, category, challenge, and full writeup pages.</p>
+    <div class="terminal-line"><span class="prompt">$</span><span>cat published_writeups.txt</span></div>
+  </div>
+</section>
+
+<div class="section-head">
+  <div>
+    <h2>Competitions</h2>
+  </div>
+  <div class="terminal-chip">./writeups --competitions</div>
+</div>
+
+<div class="grid">
+  <a class="card challenge-card" href="/c/midnight-sun-ctf-2026-quals/">
+  
+  <div class="card-kicker">competition</div>
+  <div class="card-title">Midnight Sun CTF 2026 Quals</div>
+  <div class="card-meta">7 write-ups · generated static archive</div>
+</a>
+</div>
+
+    </main>
+  </div>
 </body>
 </html>
