@@ -787,6 +787,12 @@ for w in writeups:
 """
 
     writeup_html = md_to_html(w["text"])
+    writeup_html = re.sub(
+        r'<p>Category:\s*.*?</p>\\n?',
+        '',
+        writeup_html,
+        flags=re.I
+    )
 
     ch_page = f"""
 <div class="topbar"><a href="/c/{COMP_SLUG}/">← Back to competition</a></div>
