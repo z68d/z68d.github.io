@@ -117,27 +117,6 @@ def page(title, body, current=""):
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
-
-  <style>
-    .brand-socials {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: flex-start !important;
-      gap: 2px !important;
-      margin-top: 4px !important;
-      font-family: "JetBrains Mono", monospace !important;
-      font-size: 9px !important;
-      line-height: 1.05 !important;
-    }
-
-    .brand-socials .social-link {
-      display: block !important;
-      width: max-content !important;
-      white-space: nowrap !important;
-      line-height: 1.05 !important;
-      text-decoration: none !important;
-    }
-  </style>
 </head>
 <body>
   <div class="scanlines"></div>
@@ -152,9 +131,9 @@ def page(title, body, current=""):
           <div class="brand-text">
             <div class="brand-name">saad</div>
             <div class="brand-subtitle">CTF Writeups</div>
-          <div class="brand-socials">
-            <a class="social-link" href="https://x.com/_z68d" target="_blank" rel="noreferrer">x : @_z68d</a>
-            <span class="social-link">discord : z68d</span>
+          <div class="brand-socials" style="display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:2px!important;">
+            <a class="social-link" style="display:block!important;width:max-content!important;white-space:nowrap!important;" href="https://x.com/_z68d" target="_blank" rel="noreferrer">x : @_z68d</a>
+            <span class="social-link" style="display:block!important;width:max-content!important;white-space:nowrap!important;">discord : z68d</span>
           </div>
           </div>
         </a>
@@ -769,7 +748,7 @@ competition_page = f"""
 # Challenge pages without category layer
 challenge_cards = "\n".join(
     card(
-        f"/{COMP_SLUG}/ch/{w['challenge_slug']}/",
+        f"/{COMP_SLUG}/ch/{w['challenge_slug']}/index.html",
         "challenge",
         w["challenge"],
         w["description"] if w["description"] != "N/A" else f"Author: {w['author']}"
