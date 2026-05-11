@@ -781,7 +781,6 @@ for w in writeups:
 <div class="overview-grid">
   <div><span>Name:</span> {html.escape(w["challenge"])}</div>
   <div><span>Author:</span> {html.escape(w["author"])}</div>
-  <div><span>Category:</span> {html.escape(w["category"])}</div>
   <div><span>Flag format:</span> {html.escape(w["flag_format"])}</div>
   <div><span>Objective:</span> {html.escape(w["objective"])}</div>
 </div>
