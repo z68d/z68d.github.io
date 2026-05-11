@@ -117,6 +117,27 @@ def page(title, body, current=""):
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    .brand-socials {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 2px !important;
+      margin-top: 4px !important;
+      font-family: "JetBrains Mono", monospace !important;
+      font-size: 9px !important;
+      line-height: 1.05 !important;
+    }
+
+    .brand-socials .social-link {
+      display: block !important;
+      width: max-content !important;
+      white-space: nowrap !important;
+      line-height: 1.05 !important;
+      text-decoration: none !important;
+    }
+  </style>
 </head>
 <body>
   <div class="scanlines"></div>
@@ -686,7 +707,7 @@ home = f"""
   <div class="hero-grid"></div>
   <div class="hero-content">
     <div class="eyebrow"><span class="pulse-dot"></span> published writeups</div>
-    <h1><span>saad</span><br>Archive</h1>
+    <h1><span>SAAD</span><br>Write-ups</h1>
     <p>Clean CTF writeups with competition, category, challenge, and full writeup pages.</p>
     <div class="terminal-line"><span class="prompt">$</span><span>cat published_writeups.txt</span></div>
   </div>
