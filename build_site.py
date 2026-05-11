@@ -22,7 +22,7 @@ for d in SRC_DIRS:
 if SRC is None:
     raise SystemExit("No writeups folder found. Expected: writeups/ or Midnight Sun CTF 2026 Quals/")
 
-OUT = ROOT / "c" / COMP_SLUG
+OUT = ROOT / COMP_SLUG
 PUBLIC = ROOT / "public"
 PUBLIC.mkdir(exist_ok=True)
 
@@ -139,8 +139,8 @@ def page(title, body, current=""):
         </a>
         <div class="nav-links">
           <a href="/">main</a>
-          <a href="/c/{COMP_SLUG}/">Midnight Sun CTF 2026 Quals</a>
-          <a href="/c/{COMP_SLUG}/">Challenges</a>
+          <a href="/{COMP_SLUG}/">Midnight Sun CTF 2026 Quals</a>
+          <a href="/{COMP_SLUG}/">Challenges</a>
           <a href="https://w4llz.me/" target="_blank" rel="noreferrer">our team</a>
         </div>
       </div>
@@ -675,7 +675,7 @@ pre {
 
 # Home
 home_cards = card(
-    f"/c/{COMP_SLUG}/",
+    f"/{COMP_SLUG}/",
     "competition",
     COMPETITION,
     f"{len(writeups)} write-ups · generated static archive"
@@ -714,7 +714,7 @@ for w in writeups:
 
 cat_cards = "\n".join(
     card(
-        f"/c/{COMP_SLUG}/cat/{cat_slug}/",
+        f"/{COMP_SLUG}/cat/{cat_slug}/",
         "category",
         data["name"],
         f'{len(data["items"])} challenge(s) · {len(data["items"])} write-up(s)'
@@ -748,7 +748,7 @@ competition_page = f"""
 # Challenge pages without category layer
 challenge_cards = "\n".join(
     card(
-        f"/c/{COMP_SLUG}/ch/{w['challenge_slug']}/",
+        f"/{COMP_SLUG}/ch/{w['challenge_slug']}/",
         "challenge",
         w["challenge"],
         w["description"] if w["description"] != "N/A" else f"Author: {w['author']}"
@@ -800,7 +800,7 @@ for w in writeups:
     writeup_html = md_to_html(clean_text)
 
     ch_page = f"""
-<div class="topbar"><a href="/c/{COMP_SLUG}/">← Midnight Sun CTF 2026 Quals</a></div>
+<div class="topbar"><a href="/{COMP_SLUG}/">← Midnight Sun CTF 2026 Quals</a></div>
 <section class="hero compact">
   <div class="hero-grid"></div>
   <div class="hero-content">
@@ -824,4 +824,4 @@ for w in writeups:
 
 print(f"[+] Built {len(writeups)} writeups without category layer")
 print("[+] Home: index.html")
-print(f"[+] Competition: c/{COMP_SLUG}/index.html")
+print(f"[+] Competition: {COMP_SLUG}/index.html")

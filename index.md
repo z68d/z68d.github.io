@@ -1,6 +1,6 @@
-# W4llz CTF Writeups
+# SAAD CTF Writeups
 
-Welcome to my CTF writeups archive.
+Welcome to my CTF writeups Write-up.
 
 ## Midnight Sun CTF 2026 Quals
 
