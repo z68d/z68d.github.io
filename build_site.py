@@ -739,29 +739,26 @@ competition_page = f"""
 """
 (OUT / "index.html").write_text(page(COMPETITION, competition_page), encoding="utf-8")
 
-# Category and challenge pages
-for cat_slug, data in cats.items():
-    cat_dir = OUT / "cat" / cat_slug
-    cat_dir.mkdir(parents=True, exist_ok=True)
 
-    challenge_cards = "\n".join(
-        card(
-            f"/c/{COMP_SLUG}/cat/{cat_slug}/ch/{w['challenge_slug']}/",
-            "challenge",
-            w["challenge"],
-            w["description"] if w["description"] != "N/A" else f"Author: {w['author']}"
-        )
-        for w in sorted(data["items"], key=lambda x: x["challenge"].lower())
+# Challenge pages without category layer
+challenge_cards = "\n".join(
+    card(
+        f"/c/{COMP_SLUG}/ch/{w['challenge_slug']}/",
+        "challenge",
+        w["challenge"],
+        w["description"] if w["description"] != "N/A" else f"Author: {w['author']}"
     )
+    for w in sorted(writeups, key=lambda x: x["challenge"].lower())
+)
 
-    cat_page = f"""
-<div class="topbar"><a href="/c/{COMP_SLUG}/">← Back to competition</a></div>
+competition_page = f"""
+<div class="topbar"><a href="/">← Back home</a></div>
 <section class="hero compact">
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="eyebrow"><span class="pulse-dot"></span> category</div>
-    <h1>{html.escape(data["name"])}</h1>
-    <p>{len(data["items"])} challenge(s)</p>
+    <div class="eyebrow"><span class="pulse-dot"></span> competition</div>
+    <h1>{html.escape(COMPETITION)}</h1>
+    <p>{len(writeups)} write-ups</p>
   </div>
 </section>
 
@@ -774,13 +771,13 @@ for cat_slug, data in cats.items():
   {challenge_cards}
 </div>
 """
-    (cat_dir / "index.html").write_text(page(data["name"], cat_page), encoding="utf-8")
+(OUT / "index.html").write_text(page(COMPETITION, competition_page), encoding="utf-8")
 
-    for w in data["items"]:
-        ch_dir = cat_dir / "ch" / w["challenge_slug"]
-        ch_dir.mkdir(parents=True, exist_ok=True)
+for w in writeups:
+    ch_dir = OUT / "ch" / w["challenge_slug"]
+    ch_dir.mkdir(parents=True, exist_ok=True)
 
-        overview = f"""
+    overview = f"""
 <div class="overview-grid">
   <div><span>Name:</span> {html.escape(w["challenge"])}</div>
   <div><span>Author:</span> {html.escape(w["author"])}</div>
@@ -790,10 +787,10 @@ for cat_slug, data in cats.items():
 </div>
 """
 
-        writeup_html = md_to_html(w["text"])
+    writeup_html = md_to_html(w["text"])
 
-        ch_page = f"""
-<div class="topbar"><a href="/c/{COMP_SLUG}/cat/{cat_slug}/">← Back to category</a></div>
+    ch_page = f"""
+<div class="topbar"><a href="/c/{COMP_SLUG}/">← Back to competition</a></div>
 <section class="hero compact">
   <div class="hero-grid"></div>
   <div class="hero-content">
@@ -813,8 +810,8 @@ for cat_slug, data in cats.items():
   </article>
 </div>
 """
-        (ch_dir / "index.html").write_text(page(w["challenge"], ch_page), encoding="utf-8")
+    (ch_dir / "index.html").write_text(page(w["challenge"], ch_page), encoding="utf-8")
 
-print(f"[+] Built {len(writeups)} writeups")
+print(f"[+] Built {len(writeups)} writeups without category layer")
 print("[+] Home: index.html")
 print(f"[+] Competition: c/{COMP_SLUG}/index.html")
