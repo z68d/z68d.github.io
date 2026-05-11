@@ -112,7 +112,7 @@ def page(title, body, current=""):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{html.escape(title)} | W4llz Writeups</title>
+  <title>{html.escape(title)} | saad Writeups</title>
   <link rel="stylesheet" href="/public/writeups.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,9 +127,9 @@ def page(title, body, current=""):
     <nav class="site-nav">
       <div class="nav-inner">
         <a class="brand" href="/">
-          <div class="brand-mark">W</div>
+          <img class="brand-avatar" src="https://github.com/z68d.png" alt="saad avatar">
           <div class="brand-text">
-            <div class="brand-name">W4llz</div>
+            <div class="brand-name">saad</div>
             <div class="brand-subtitle">CTF Writeups</div>
           </div>
         </a>
@@ -681,7 +681,7 @@ home = f"""
   <div class="hero-grid"></div>
   <div class="hero-content">
     <div class="eyebrow"><span class="pulse-dot"></span> published writeups</div>
-    <h1><span>W4llz</span><br>Archive</h1>
+    <h1><span>saad</span><br>Archive</h1>
     <p>Clean CTF writeups with competition, category, challenge, and full writeup pages.</p>
     <div class="terminal-line"><span class="prompt">$</span><span>cat published_writeups.txt</span></div>
   </div>
