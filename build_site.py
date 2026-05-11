@@ -131,12 +131,17 @@ def page(title, body, current=""):
           <div class="brand-text">
             <div class="brand-name">saad</div>
             <div class="brand-subtitle">CTF Writeups</div>
+          <div class="brand-socials">
+            <a href="https://x.com/_z68d" target="_blank" rel="noreferrer">X: @_z68d</a>
+            <span>Discord: z68d</span>
+          </div>
           </div>
         </a>
         <div class="nav-links">
           <a href="/">main</a>
           <a href="/c/{COMP_SLUG}/">Midnight Sun CTF 2026 Quals</a>
           <a href="/c/{COMP_SLUG}/">Challenges</a>
+          <a href="https://w4llz.me/" target="_blank" rel="noreferrer">our team</a>
         </div>
       </div>
     </nav>
