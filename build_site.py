@@ -132,7 +132,6 @@ def nav_html(current_comp=None):
         <div class="nav-links">
           <a href="/">main</a>
           <a href="/{html.escape(comp_slug)}/">{html.escape(comp_name)}</a>
-          <a href="/{html.escape(comp_slug)}/">Challenges</a>
           <a href="https://w4llz.me/" target="_blank" rel="noreferrer">our team</a>
         </div>"""
 
