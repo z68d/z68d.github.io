@@ -477,3 +477,37 @@ pre {
   .section-head { align-items: flex-start; flex-direction: column; }
   .grid { grid-template-columns: 1fr; }
 }
+
+/* Final navbar/header size fix */
+.site-nav {
+  height: 150px !important;
+  min-height: 150px !important;
+  max-height: 150px !important;
+  overflow: hidden !important;
+}
+
+.nav-inner {
+  height: 150px !important;
+  min-height: 150px !important;
+  max-height: 150px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  align-items: center !important;
+}
+
+.brand {
+  height: 150px !important;
+  max-height: 150px !important;
+  overflow: hidden !important;
+}
+
+.brand-avatar,
+.brand img {
+  width: 140px !important;
+  height: 140px !important;
+  max-width: 140px !important;
+  max-height: 140px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 0.85rem !important;
+}
