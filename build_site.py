@@ -132,8 +132,22 @@ def page(title, body, current=""):
             <div class="brand-name">saad</div>
             <div class="brand-subtitle">CTF Writeups</div>
           <div class="brand-socials">
-            <a href="https://x.com/_z68d" target="_blank" rel="noreferrer">X: @_z68d</a>
-            <span>Discord: z68d</span>
+            <a class="social-link" href="https://x.com/_z68d" target="_blank" rel="noreferrer" aria-label="X account">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 4l16 16M20 4L4 20" />
+              </svg>
+              <span>@_z68d</span>
+            </a>
+            <span class="social-link" aria-label="Discord username">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8.5 8.5c2.2-.8 4.8-.8 7 0M9 15c2 1.1 4 1.1 6 0" />
+                <path d="M7.5 6.5c-1.5 2.3-2.1 5.1-1.8 8.1 1.8 1.4 3.5 2.1 5.1 2.4l.7-1.4" />
+                <path d="M16.5 6.5c1.5 2.3 2.1 5.1 1.8 8.1-1.8 1.4-3.5 2.1-5.1 2.4l-.7-1.4" />
+                <circle cx="9.7" cy="12.2" r=".7" />
+                <circle cx="14.3" cy="12.2" r=".7" />
+              </svg>
+              <span>z68d</span>
+            </span>
           </div>
           </div>
         </a>
