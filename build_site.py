@@ -127,7 +127,7 @@ def page(title, body, current=""):
     <nav class="site-nav">
       <div class="nav-inner">
         <a class="brand" href="/">
-          <img class="brand-avatar" src="/public/mylogo.gif" alt="saad avatar" width="32" height="32" style="width:32px!important;height:32px!important;min-width:32px!important;max-width:32px!important;min-height:32px!important;max-height:32px!important;object-fit:cover!important;display:block!important;flex:0 0 32px!important;">
+          <img class="brand-avatar" src="/public/mylogo.gif" alt="saad avatar" width="38" height="38" style="width:38px!important;height:38px!important;min-width:38px!important;max-width:38px!important;min-height:38px!important;max-height:38px!important;object-fit:cover!important;display:block!important;flex:0 0 38px!important;">
           <div class="brand-text">
             <div class="brand-name">saad</div>
             <div class="brand-subtitle">CTF Writeups</div>
@@ -293,7 +293,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .nav-inner {
-  width: min(1200px, calc(100% - 32px));
+  width: min(1200px, calc(100% - 38px));
   min-height: 74px;
   margin: 0 auto;
   display: flex;
@@ -362,7 +362,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .container {
-  width: min(1200px, calc(100% - 32px));
+  width: min(1200px, calc(100% - 38px));
   margin: 0 auto;
   padding: 2.1rem 0 5rem;
 }
