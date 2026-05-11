@@ -134,9 +134,9 @@ def page(title, body, current=""):
           </div>
         </a>
         <div class="nav-links">
-          <a href="/">Home</a>
-          <a href="/c/{COMP_SLUG}/">Competitions</a>
-          <a href="https://github.com/z68d/z68d.github.io">GitHub</a>
+          <a href="/">main</a>
+          <a href="/c/{COMP_SLUG}/">Midnight Sun CTF 2026 Quals</a>
+          <a href="/c/{COMP_SLUG}/">Challenges</a>
         </div>
       </div>
     </nav>
@@ -718,11 +718,11 @@ cat_cards = "\n".join(
 )
 
 competition_page = f"""
-<div class="topbar"><a href="/">← Back home</a></div>
+<div class="topbar"><a href="/">← main</a></div>
 <section class="hero compact">
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="eyebrow"><span class="pulse-dot"></span> competition</div>
+    <div class="eyebrow"><span class="pulse-dot"></span> Midnight Sun CTF 2026 Quals</div>
     <h1>{html.escape(COMPETITION)}</h1>
     <p>{len(cats)} categories · {len(writeups)} write-ups</p>
   </div>
@@ -752,11 +752,11 @@ challenge_cards = "\n".join(
 )
 
 competition_page = f"""
-<div class="topbar"><a href="/">← Back home</a></div>
+<div class="topbar"><a href="/">← main</a></div>
 <section class="hero compact">
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="eyebrow"><span class="pulse-dot"></span> competition</div>
+    <div class="eyebrow"><span class="pulse-dot"></span> Midnight Sun CTF 2026 Quals</div>
     <h1>{html.escape(COMPETITION)}</h1>
     <p>{len(writeups)} write-ups</p>
   </div>
@@ -795,7 +795,7 @@ for w in writeups:
     writeup_html = md_to_html(clean_text)
 
     ch_page = f"""
-<div class="topbar"><a href="/c/{COMP_SLUG}/">← Back to competition</a></div>
+<div class="topbar"><a href="/c/{COMP_SLUG}/">← Midnight Sun CTF 2026 Quals</a></div>
 <section class="hero compact">
   <div class="hero-grid"></div>
   <div class="hero-content">
