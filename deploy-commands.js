@@ -14,18 +14,30 @@ const ADMIN_ONLY = String(process.env.ADMIN_ONLY || "false").toLowerCase() === "
 
 const submitPanel = new SlashCommandBuilder()
   .setName("writeup-submit-panel")
-  .setDescription("Send the write-up upload panel.");
+  .setDescription("Send the write-up management panel.");
 
 const writeupSite = new SlashCommandBuilder()
   .setName("writeup-site")
-  .setDescription("Get the write-up website link.");
+  .setDescription("Get the write-up website links.");
+
+const competitionAdd = new SlashCommandBuilder()
+  .setName("competition-add")
+  .setDescription("Add a new competition to the write-up site.")
+  .addStringOption((option) =>
+    option.setName("name")
+      .setDescription("Competition name, for example Midnight Sun CTF 2026 Quals")
+      .setRequired(true))
+  .addStringOption((option) =>
+    option.setName("slug")
+      .setDescription("Optional URL slug, for example midnight-sun-ctf-2026-quals")
+      .setRequired(false));
 
 if (ADMIN_ONLY) {
   submitPanel.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild);
+  competitionAdd.setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild);
 }
 
-const commands = [submitPanel, writeupSite].map((command) => command.toJSON());
-
+const commands = [submitPanel, writeupSite, competitionAdd].map((command) => command.toJSON());
 const rest = new REST({ version: "10" }).setToken(BOT_TOKEN);
 
 console.log("Registering slash commands...");
